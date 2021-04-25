@@ -6,18 +6,19 @@ using UnityEngine.VFX.Utility;
 
 [VFXBinder("Audio")]
 public class AudioBinder : VFXBinderBase {
-    [SerializeField] Lasp.FilterType _filterType;
+    [SerializeField] protected Lasp.FilterType _filterType;
     const float kSilence = -40; // -40 dBFS = silence
+    protected float[] _waveform;
+    protected float peak, rms;
+
 
     [VFXPropertyBinding("System.Single")]
     public ExposedProperty audioProperty;
-    float[] _waveform;
-    private float peak, rms;
 
-    private void Start() {
+    protected virtual void Start() {
         _waveform = new float[512];
     }
-    private void Update() {
+    protected virtual void Update() {
         if (!Application.isPlaying) return;
         peak = Lasp.AudioInput.GetPeakLevelDecibel(_filterType);
         rms = Lasp.AudioInput.CalculateRMSDecibel(_filterType);
