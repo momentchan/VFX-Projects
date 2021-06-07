@@ -14,7 +14,7 @@ public class AudioPlay : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             StopAllCoroutines();
 
             if (source.isPlaying)
