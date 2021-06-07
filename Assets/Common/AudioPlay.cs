@@ -16,7 +16,11 @@ public class AudioPlay : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space)) {
             StopAllCoroutines();
-            StartCoroutine(Play());
+
+            if (source.isPlaying)
+                source.Stop();
+            else
+                StartCoroutine(Play());
         }
     }
     IEnumerator Play() {

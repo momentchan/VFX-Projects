@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AdvancedMode: 1
   quality:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 3
   focusMode:
     m_OverrideState: 1
     m_Value: 2
@@ -26,19 +26,19 @@ MonoBehaviour:
     min: 0.1
   nearFocusStart:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 21.12
     min: 0
   nearFocusEnd:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 21.5
     min: 0
   farFocusStart:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 0
     min: 0
   farFocusEnd:
     m_OverrideState: 1
-    m_Value: 25
+    m_Value: 13.35
     min: 0
   m_NearSampleCount:
     m_OverrideState: 0
@@ -227,6 +227,67 @@ MonoBehaviour:
     m_Value: 10
     min: 4
     max: 64
+--- !u!114 &-2390846327131686692
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcf384b154398e341b6b29969c078198, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  quality:
+    m_OverrideState: 0
+    m_Value: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  maximumVelocity:
+    m_OverrideState: 0
+    m_Value: 200
+    min: 0
+    max: 1500
+  minimumVelocity:
+    m_OverrideState: 0
+    m_Value: 2
+    min: 0
+    max: 64
+  cameraMotionBlur:
+    m_OverrideState: 0
+    m_Value: 1
+  specialCameraClampMode:
+    m_OverrideState: 0
+    m_Value: 0
+  cameraVelocityClamp:
+    m_OverrideState: 0
+    m_Value: 0.05
+    min: 0
+    max: 0.3
+  cameraTranslationVelocityClamp:
+    m_OverrideState: 0
+    m_Value: 0.05
+    min: 0
+    max: 0.3
+  cameraRotationVelocityClamp:
+    m_OverrideState: 0
+    m_Value: 0.03
+    min: 0
+    max: 0.3
+  depthComparisonExtent:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 20
+  m_SampleCount:
+    m_OverrideState: 0
+    m_Value: 8
+    min: 2
 --- !u!114 &-1241760814557299050
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -294,7 +355,7 @@ MonoBehaviour:
     m_Value: 1
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 0.69803923, g: 0.05098038, b: 0.15369731, a: 1}
+    m_Value: {r: 0.019437533, g: 0.19368102, b: 0.3679245, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -356,7 +417,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: LOVE Scene Setting
+  m_Name: Flower Scene Setting
   m_EditorClassIdentifier: 
   components:
   - {fileID: 1485931740574174544}
@@ -367,11 +428,11 @@ MonoBehaviour:
   - {fileID: 6571626236096444546}
   - {fileID: 4514170134876972071}
   - {fileID: 5578742144443067615}
-  - {fileID: 596514788493109265}
   - {fileID: -6063615697614801726}
   - {fileID: -1241760814557299050}
   - {fileID: 3039633915855551648}
   - {fileID: -8647521638369189728}
+  - {fileID: -2390846327131686692}
 --- !u!114 &596514788493109265
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -590,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598e2d32e2c7b0c418e030c3236d663a, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   quality:
     m_OverrideState: 0
@@ -643,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b6606ef2548734bb6d11b9d160bc7e, type: 3}
   m_Name: HDRISky
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   m_AdvancedMode: 0
   rotation:
     m_OverrideState: 0
@@ -933,7 +994,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.65
+    m_Value: 0.6
     min: 0
     max: 1
   scatter:
