@@ -52,7 +52,7 @@
     },
     "com.unity.mathematics": {
       "version": "1.2.1",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -224,6 +224,17 @@
       "source": "registry",
       "dependencies": {
         "com.unity.render-pipelines.high-definition": "7.4.1"
+      },
+      "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.klak.timeline.procedural-motion": {
+      "version": "1.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.timeline": "1.4.2",
+        "com.unity.mathematics": "1.2.1"
       },
       "url": "https://registry.npmjs.com"
     },
