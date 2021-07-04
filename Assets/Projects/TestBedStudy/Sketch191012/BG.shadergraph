@@ -922,9 +922,9 @@
             "a": 1.0
         },
         "key1": {
-            "r": 0.9905660152435303,
+            "r": 0.9921568632125855,
             "g": 0.0,
-            "b": 0.638935387134552,
+            "b": 0.6392157077789307,
             "a": 1.0
         },
         "key2": {
@@ -1179,7 +1179,7 @@
     "m_DOTSInstancing": false,
     "m_Version": 0,
     "m_FirstTimeMigrationExecuted": true,
-    "inspectorFoldoutMask": 0
+    "inspectorFoldoutMask": 1
 }
 
 {

@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3930072101451605586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ca4d0ec3eaf424181397a9f2f89180, type: 3}
+  m_Name: BrownianMotion(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    positionAmount: {x: 6, y: 3, z: 3}
+    rotationAmount: {x: 1000, y: 1000, z: 100}
+    frequency: 0.1
+    octaves: 1
+    randomSeed: 283
 --- !u!114 &-3480082832084023021
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17,7 +35,7 @@ MonoBehaviour:
     rotationAmount: {x: 1000, y: 1000, z: 1000}
     frequency: 0.1
     octaves: 1
-    randomSeed: 244
+    randomSeed: 309
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,15 +51,33 @@ MonoBehaviour:
   m_Version: 0
   m_Tracks:
   - {fileID: 9044155166366382240}
-  - {fileID: 2996924191874893749}
-  - {fileID: 3808374643820774676}
+  - {fileID: 724818985094662267}
+  - {fileID: 3882199897042282225}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 0}
---- !u!114 &2996924191874893749
+--- !u!114 &245255513608876407
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ca4d0ec3eaf424181397a9f2f89180, type: 3}
+  m_Name: BrownianMotion(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  template:
+    positionAmount: {x: 6, y: 3, z: 3}
+    rotationAmount: {x: 1000, y: 1000, z: 1000}
+    frequency: 0.1
+    octaves: 1
+    randomSeed: 619
+--- !u!114 &724818985094662267
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,10 +101,10 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: 7768532293917737029}
-    m_Duration: 120
+    m_Asset: {fileID: 245255513608876407}
+    m_Duration: 60
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 2996924191874893749}
+    m_ParentTrack: {fileID: 724818985094662267}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
@@ -133,7 +169,7 @@ MonoBehaviour:
     m_DisplayName: BrownianMotion
   m_Markers:
     m_Objects: []
---- !u!114 &3808374643820774676
+--- !u!114 &3882199897042282225
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,10 +193,10 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: 8163572244526825494}
-    m_Duration: 120
+    m_Asset: {fileID: -3930072101451605586}
+    m_Duration: 60
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 3808374643820774676}
+    m_ParentTrack: {fileID: 3882199897042282225}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
@@ -225,42 +261,6 @@ MonoBehaviour:
     m_DisplayName: BrownianMotion
   m_Markers:
     m_Objects: []
---- !u!114 &7768532293917737029
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ca4d0ec3eaf424181397a9f2f89180, type: 3}
-  m_Name: BrownianMotion(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  template:
-    positionAmount: {x: 6, y: 3, z: 3}
-    rotationAmount: {x: 1000, y: 1000, z: 1000}
-    frequency: 0.1
-    octaves: 1
-    randomSeed: 345
---- !u!114 &8163572244526825494
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ca4d0ec3eaf424181397a9f2f89180, type: 3}
-  m_Name: BrownianMotion(Clone)(Clone)
-  m_EditorClassIdentifier: 
-  template:
-    positionAmount: {x: 6, y: 3, z: 3}
-    rotationAmount: {x: 1000, y: 1000, z: 1000}
-    frequency: 0.1
-    octaves: 1
-    randomSeed: 678
 --- !u!114 &9044155166366382240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,7 +286,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -3480082832084023021}
-    m_Duration: 120
+    m_Duration: 60
     m_TimeScale: 1
     m_ParentTrack: {fileID: 9044155166366382240}
     m_EaseInDuration: 0
