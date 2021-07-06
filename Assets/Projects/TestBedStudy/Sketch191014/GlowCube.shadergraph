@@ -133,7 +133,11 @@
             "m_Id": "71410243cd2b4da68f421e6de59c79dc"
         }
     ],
-    "m_StickyNoteDatas": [],
+    "m_StickyNoteDatas": [
+        {
+            "m_Id": "4be0e6a8fae34eaeaa81b0624c70b8ed"
+        }
+    ],
     "m_Edges": [
         {
             "m_OutputSlot": {
@@ -1509,6 +1513,26 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "4be0e6a8fae34eaeaa81b0624c70b8ed",
+    "m_Title": "Question",
+    "m_Content": "Why UV divied DDXY",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -2502.1435546875,
+        "y": 538.6939086914063,
+        "width": 200.0,
+        "height": 160.0
+    },
+    "m_Group": {
+        "m_Id": ""
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "4c16b5853b564fa8b5a9b8eb5924d6fc",
     "m_Id": 0,
@@ -2188,10 +2212,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2054.0,
-            "y": 912.0,
-            "width": 129.2000732421875,
-            "height": 118.0
+            "x": -2000.39990234375,
+            "y": 928.0000610351563,
+            "width": 128.7999267578125,
+            "height": 118.00006103515625
         }
     },
     "m_Slots": [
@@ -3173,7 +3197,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -3342,10 +3366,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2259.199951171875,
-            "y": 808.3999633789063,
-            "width": 129.199951171875,
-            "height": 118.0
+            "x": -2257.599853515625,
+            "y": 818.7999877929688,
+            "width": 208.0,
+            "height": 301.99993896484377
         }
     },
     "m_Slots": [
