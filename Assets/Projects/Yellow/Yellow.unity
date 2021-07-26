@@ -322,7 +322,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462119419}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 0.9649628}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -383,6 +383,8 @@ PlayableDirector:
     value: {fileID: 926109989}
   - key: {fileID: -8769054542631505309, guid: 2ec8ebdafddbcbc48a540c9f2935425d, type: 2}
     value: {fileID: 732938064}
+  - key: {fileID: -2713502416928879269, guid: 2ec8ebdafddbcbc48a540c9f2935425d, type: 2}
+    value: {fileID: 1520889098}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &477187390
@@ -977,16 +979,16 @@ VisualEffect:
       - m_Value: 0
         m_Name: HighPass
         m_Overridden: 1
-      - m_Value: 11.955045
+      - m_Value: 12
         m_Name: Focus Distance
         m_Overridden: 1
       - m_Value: 1
         m_Name: Speed
         m_Overridden: 1
-      - m_Value: 0.00068595866
+      - m_Value: 1
         m_Name: ColorRatio
         m_Overridden: 1
-      - m_Value: 0.0027059268
+      - m_Value: 1
         m_Name: SpawnRate
         m_Overridden: 1
       - m_Value: -2.08
@@ -997,6 +999,9 @@ VisualEffect:
         m_Overridden: 1
       - m_Value: 0
         m_Name: Strength
+        m_Overridden: 1
+      - m_Value: 0
+        m_Name: Die
         m_Overridden: 1
     m_Vector2f:
       m_Array: []
@@ -1015,7 +1020,10 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 2800000, guid: 6fb3b888b1f7cf248820c33ad4197732, type: 3}
+        m_Name: Background
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!4 &926109992
@@ -1588,6 +1596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1520889097}
+  - component: {fileID: 1520889098}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -1610,7 +1619,26 @@ Transform:
   - {fileID: 462119420}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 346, y: 0, z: 0}
+--- !u!95 &1520889098
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520889096}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1532228019
 GameObject:
   m_ObjectHideFlags: 1
