@@ -21,10 +21,10 @@
     "com.unity.timeline": "1.6.0-pre.5",
     "com.unity.ugui": "1.0.0",
     "com.unity.xr.management": "4.0.5",
+    "jp.keijiro.kino.post-processing": "2.1.15",
     "jp.keijiro.klak.timeline.procedural-motion": "1.0.1",
     "jp.keijiro.recorder.ffmpeg": "1.0.2",
     "jp.keijiro.smrvfx": "1.1.6",
-    "jp.keijiro.kino.post-processing": "2.1.15",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -56,6 +56,7 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.unity.barracuda" : "https://github.com/Unity-Technologies/barracuda-release.git"
   }
 }
