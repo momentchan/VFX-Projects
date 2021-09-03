@@ -1,0 +1,84 @@
+#pragma kernel PostProcess2
+
+#include "PoseData.cginc"
+
+#define MAX_DETECTION 64
+
+float _Threshold;
+ByteAddressBuffer _Count;
+ConsumeStructuredBuffer<PoseData> _Input;
+AppendStructuredBuffer<PoseData> _Output;
+
+groupshared PoseData InputArray[MAX_DETECTION];
+
+PoseData AddPoseData(in PoseData pd1, in PoseData pd2) {
+	PoseData result;
+	result.center = pd1.center + pd2.center;
+	result.extent = pd1.extent + pd2.extent;
+
+	[unroll]
+	for (uint i = 0; i < 4; i++)
+		result.keyPoints[i] = pd1.keyPoints[i] + pd2.keyPoints[i];
+	
+	return result;
+}
+
+PoseData MultipleScore(in PoseData pd, float score) {
+	PoseData result;
+	result.center = pd.center * score;
+	result.extent = pd.extent * score;
+
+	[unroll]
+	for (uint i = 0; i < 4; i++)
+		result.keyPoints[i] = pd.keyPoints[i] * score;
+
+	return result;
+}
+
+float Iou(in PoseData pd1, in PoseData pd2) {
+	float pd1Area = pd1.extent.x * pd1.extent.y;
+	float pd2Area = pd2.extent.x * pd2.extent.y;
+
+	float2 p0 = max(pd1.center - pd1.extent / 2, pd2.center - pd2.extent / 2);
+	float2 p1 = min(pd1.center + pd1.extent / 2, pd2.center + pd2.extent / 2);
+	float innerArea = max(0, p1.x - p0.x) * max(0, p1.y - p0.y);
+
+	return innerArea / (pd1Area + pd2Area - innerArea);
+}
+
+[numthreads(1, 1, 1)]
+void PostProcess2(uint3 id : SV_DispatchThreadID) {
+	uint inputCount = _Count.Load(0);
+	if (inputCount == 0) return;
+
+	for (uint i = 0; i < inputCount; i++)
+		InputArray[i] = _Input.Consume();
+
+	for (i = 0; i < inputCount - 1; i++) {
+
+		if (InputArray[i].score == 0) continue;
+
+		float maxScore = InputArray[i].score;
+		PoseData pdAcc = MultipleScore(InputArray[i], maxScore);
+		float score_acc = maxScore;
+
+		for (uint j = i + 1; j < inputCount; j++) {
+
+			if (InputArray[j].score == 0) continue;
+
+			if (Iou(InputArray[i], InputArray[j]) < _Threshold) continue;
+
+			float score = InputArray[j].score;
+			pdAcc = AddPoseData(pdAcc, MultipleScore(InputArray[j], score));
+			score_acc += score;
+			maxScore = max(maxScore, score);
+
+			// remove entry
+			InputArray[j].score = 0;
+		}
+
+		PoseData resultPd = MultipleScore(pdAcc, 1 / score_acc);
+		resultPd.score = maxScore;
+		_Output.Append(resultPd);
+	}
+}
