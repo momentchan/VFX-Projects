@@ -39,13 +39,20 @@ namespace Common {
         // RenderTexture.ReleaseTemporary.
         //
         public static RenderTexture
-          CopyOutputToTempRT(this IWorker worker, string name, int w, int h) {
-            var fmt = RenderTextureFormat.RFloat;
+          CopyOutputToTempRT(this IWorker worker, string name, int w, int h, RenderTextureFormat format = RenderTextureFormat.RFloat) {
             var shape = new TensorShape(1, h, w, 1);
-            var rt = RenderTexture.GetTemporary(w, h, 0, fmt);
+            var rt = RenderTexture.GetTemporary(w, h, 0, format);
             using (var tensor = worker.PeekOutput(name).Reshape(shape))
                 tensor.ToRenderTexture(rt);
             return rt;
+        }
+
+        public static ComputeBuffer CopyOutputToBuffer(this IWorker worker, string name, int length) {
+            var shape = new TensorShape(length);
+            var tensor = worker.PeekOutput(name).Reshape(shape);
+            var buffer = ((ComputeTensorData)tensor.data).buffer;
+            tensor.Dispose();
+            return buffer;
         }
     }
 } // namespace Mlsd

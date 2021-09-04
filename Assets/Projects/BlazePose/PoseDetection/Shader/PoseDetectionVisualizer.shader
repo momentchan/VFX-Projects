@@ -1,4 +1,4 @@
-Shader "Unlit/PoseDetectionVisualizer"
+Shader "Hidden/PoseDetectionVisualizer"
 {
     CGINCLUDE
     #include "UnityCG.cginc"
