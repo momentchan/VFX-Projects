@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6872360255d9c9f43a428ff0a6b3d0ee, type: 3}
+  m_Name: BlazePose
+  m_EditorClassIdentifier: 
+  detectionResource: {fileID: 11400000, guid: aa28d9e83b6dd4e4881c2b6f1292fb5d, type: 2}
+  landmarkResource: {fileID: 11400000, guid: 077658350f9ac564e88f80eb89b23710, type: 2}
+  process: {fileID: 7200000, guid: 18b194a1fbeab884cbcc4b616b0e7826, type: 3}

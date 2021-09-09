@@ -10,8 +10,9 @@ namespace Common {
         public static RenderTexture NewFloat4(int w, int h)
           => new RenderTexture(w, h, 0, RenderTextureFormat.ARGBFloat);
 
-        public static RenderTexture NewFloat4UAV(int w, int h) {
-            var rt = new RenderTexture(w, h, 0, RenderTextureFormat.ARGBFloat);
+        public static RenderTexture NewFloat4UAV(int w, int h, int d, RenderTextureFormat format = RenderTextureFormat.ARGBFloat) {
+            var rt = new RenderTexture(w, h, d, format);
+            rt.graphicsFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_UNorm;
             rt.enableRandomWrite = true;
             rt.Create();
             return rt;

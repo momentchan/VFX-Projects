@@ -1,0 +1,167 @@
+#pragma kernel LetterBoxImage
+#pragma kernel PoseRegionUpdate
+#pragma kernel CropImage
+#pragma kernel PostProcess
+
+#define PI 3.14159265359
+
+#include "PoseRegion.cginc"
+#include "LowPassFilter.cginc"
+#include "Misc.cginc"
+#include "../Package/PoseDetection/Shader/PoseData.cginc"
+
+Texture2D<float> _KeyPoints;
+
+uint _LetterBoxWidth;
+float2 _LetterBoxScale;
+sampler2D _LetterBoxInput;
+RWTexture2D<float4> _LetterBoxOutput;
+
+[numthreads(8, 8, 1)]
+void LetterBoxImage(uint2 id : SV_DispatchThreadID)
+{
+	if (any(id > _LetterBoxWidth)) return;
+
+	float2 uv = (id + 0.5) / _LetterBoxWidth;
+
+	// scale
+	uv = (uv - 0.5) * _LetterBoxScale + 0.5;
+
+	// UV gradients
+	float2 duv_dx = float2(1.0 / _LetterBoxWidth * _LetterBoxScale.x, 0);
+	float2 duv_dy = float2(0, -1.0 / _LetterBoxWidth * _LetterBoxScale.y);
+
+	float3 rgb = tex2Dgrad(_LetterBoxInput, uv, duv_dx, duv_dy).rgb;
+
+	rgb *= all(uv > 0) && all(uv < 1);
+	_LetterBoxOutput[id] = float4(rgb, 1);
+}
+
+float _DeltaTime;
+uint  _UpperBodyOnly;
+StructuredBuffer<PoseData> _Poses;
+ByteAddressBuffer _PoseCount;
+RWStructuredBuffer<PoseRegion> _PoseRegions;
+
+[numthreads(1, 1, 1)]
+void PoseRegionUpdate(uint3 id : SV_DispatchThreadID)
+{
+	uint count = _PoseCount.Load(0);
+	if (count <= 0) return;
+
+	const PoseData pd = _Poses[0];
+
+	float2 hip = pd.keyPoints[0];
+	float2 shoulder = pd.keyPoints[2];
+
+	float2 center = _UpperBodyOnly ? shoulder : hip;
+	float2 roi = _UpperBodyOnly ? pd.keyPoints[3] : pd.keyPoints[1];
+
+	// image crop size
+	float sizeX = abs(roi.x - center.x);
+	float sizeY = abs(roi.y - center.y);
+	float size = max(sizeX, sizeY) * 3;
+
+	float target = PI * 0.5f;
+	const float2 up = shoulder - hip;
+	float angle = atan2(-up.y, up.x) - target;
+
+	center.y = 1 - center.y;
+
+	PoseRegion pr = _PoseRegions[0];
+
+	// Low pass filter
+	const float3 lpf_params = float3(2, 1.5, _DeltaTime);
+	const float4 box = float4(center, size, angle);
+	pr.dBox = lpf_Step_dx(box, pr.box, pr.dBox, lpf_params);
+	pr.box = lpf_Step_x(box, pr.box, pr.dBox, lpf_params);
+
+	// Region crop matrix update
+	float4x4 m1 = makeTranslationMatrix(pr.box.xy - pr.box.z / 2);
+	float4x4 m2 = makeScalingMatrix(pr.box.z);
+	float4x4 m3 = makeTranslationMatrix(0.5);
+	float4x4 m4 = makeRotationMatrix(pr.box.w);
+	float4x4 m5 = makeTranslationMatrix(-0.5);
+	pr.cropMatrix = mul(mul(mul(mul(m1, m2), m3), m4), m5);
+
+	_PoseRegions[0] = pr;
+}
+
+#define CROP_IMAGE_SIZE 256
+
+sampler2D _SourceTexture;
+StructuredBuffer<PoseRegion> _CropRegions;
+RWTexture2D<float4> _CroppedTexture;
+
+[numthreads(8, 8, 1)]
+void CropImage(uint2 id : SV_DispatchThreadID)
+{
+	float4x4 m = _CropRegions[0].cropMatrix;
+
+	float2 uv = (id + 0.5) / CROP_IMAGE_SIZE;
+	uv = mul(m, float4(uv, 0, 1)).xy;
+
+	uv = (uv - 0.5) * _LetterBoxScale + 0.5;
+
+	// UV gradients
+	float2 duv_dx = mul(m, float4(1.0 / CROP_IMAGE_SIZE, 0, 0, 1)).xy;
+	float2 duv_dy = mul(m, float4(0, -1.0 / CROP_IMAGE_SIZE, 0, 1)).xy;
+
+	float3 rgb = tex2Dgrad(_SourceTexture, uv, duv_dx, duv_dy).rgb;
+
+	_CroppedTexture[id] = float4(rgb, 1);
+}
+
+uint _KeyPointCount;
+float _PostDeltaTime;
+StructuredBuffer<float4> _PostInput;
+StructuredBuffer<float4> _PostInputWorld;
+StructuredBuffer<PoseRegion> _PostRegions;
+RWStructuredBuffer<float4> _PostDeltaOutput;
+RWStructuredBuffer<float4> _PostDeltaOutputWorld;
+RWStructuredBuffer<float4> _PostOutput;
+RWStructuredBuffer<float4> _PostOutputWorld;
+
+[numthreads(33 + 1, 1, 1)]
+void PostProcess(uint id : SV_DispatchThreadID)
+{
+	if (id > _KeyPointCount) return;
+
+	if (id == _KeyPointCount) {
+		_PostOutput[id] =_PostInput[id];
+		_PostOutputWorld[id] = _PostInputWorld[id];
+	}
+	else {
+		PoseRegion pr = _PostRegions[0];
+		float score = _PostInput[id].w;
+
+		float3 x = _PostInput[id].xyz;
+		float3 p_x = _PostOutput[id].xyz;
+		float3 p_dx = _PostDeltaOutput[id].xyz;
+
+		x = mul(pr.cropMatrix, float4(x, 1)).xyz;
+		x.xy = (x.xy - 0.5) * _LetterBoxScale + 0.5;
+
+		float3 lpf_params = float3(30, 1.5, _PostDeltaTime);
+		float3 dx = lpf_Step_dx(x, p_x, p_dx, lpf_params);
+		x = lpf_Step_x(x, p_x, dx, lpf_params);
+
+		_PostDeltaOutput[id] = float4(dx, 1);
+		_PostOutput[id] = float4(x, score);
+
+
+		// World
+		score = _PostInputWorld[id].w;
+		x = _PostInputWorld[id].xyz;
+		p_x = _PostOutputWorld[id].xyz;
+		p_dx = _PostDeltaOutputWorld[id].xyz;
+
+		x = mul(makeRotationMatrix(pr.box.w), float4(x, 1)).xyz;
+
+		dx = lpf_Step_dx(x, p_x, p_dx, lpf_params);
+		x = lpf_Step_x(x, p_x, dx, lpf_params);
+
+		_PostDeltaOutputWorld[id] = float4(dx, 1);
+		_PostOutputWorld[id] = float4(x, score);
+	}
+}

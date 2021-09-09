@@ -261,6 +261,15 @@
       },
       "url": "https://registry.npmjs.com"
     },
+    "jp.keijiro.mlsd": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.barracuda": "2.1.0-preview"
+      },
+      "url": "https://registry.npmjs.com"
+    },
     "jp.keijiro.recorder.ffmpeg": {
       "version": "1.0.2",
       "depth": 0,
