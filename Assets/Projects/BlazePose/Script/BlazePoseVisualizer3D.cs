@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace BlazePose {
-    public class BlazePoseVisualizer : MonoBehaviour {
+    public class BlazePoseVisualizer3D : MonoBehaviour {
         [SerializeField] private ImageSource source;
         [SerializeField] private BlazePoseResource resource;
         [SerializeField] private Shader shader;
@@ -17,32 +17,27 @@ namespace BlazePose {
         private BlazePoseDetector detector;
 
         void Start() {
-            detector = new BlazePoseDetector(resource, modelType);
             material = new Material(shader);
+            detector = new BlazePoseDetector(resource, modelType);
         }
 
         private void LateUpdate() {
-            detector.ProcessImage(source.Texture, modelType);
             previewUI.texture = source.Texture;
+            detector.ProcessImage(source.Texture, modelType);
         }
 
         protected void OnCameraRender(ScriptableRenderContext context, Camera[] cameras) {
-            var w = previewUI.rectTransform.rect.width;
-            var h = previewUI.rectTransform.rect.height;
-
-            material.SetPass(0);
-            material.SetBuffer("_KeyPoints", detector.outputBuffer);
-            material.SetFloat("_HumanExistThreshold", humanExistThreshold);
+            material.SetBuffer("_WorldKeyPoints", detector.outputWorldBuffer);
             material.SetInt("_KeypointCount", detector.KeypointCount);
-            material.SetVector("_UiScale", new Vector2(w, h));
+            material.SetFloat("_HumanExistThreshold", humanExistThreshold);
             material.SetVectorArray("_LinePair", linePair);
 
             // draw 35 body lines
-            material.SetPass(0);
+            material.SetPass(2);
             Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, BODY_LINE_NUM);
 
             // draw 33 landmark points
-            material.SetPass(1);
+            material.SetPass(3);
             Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, detector.KeypointCount);
         }
 
