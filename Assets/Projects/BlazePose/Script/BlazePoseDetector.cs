@@ -1,5 +1,6 @@
 using Common;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace BlazePose {
     public sealed class BlazePoseDetector : System.IDisposable {
@@ -25,8 +26,8 @@ namespace BlazePose {
             detector = new PoseDetector(resource.detectionResource);
             landmarker = new PoseLandMarker(resource.landmarkResource, modelType);
 
-            letterboxTexture = RTUtil.NewFloat4UAV(DETECTION_INPUT_IMAGE_SIZE, DETECTION_INPUT_IMAGE_SIZE, 0, RenderTextureFormat.ARGB32);
-            croppedTexture = RTUtil.NewFloat4UAV(LANDMARK_INPUT_IMAGE_SIZE, LANDMARK_INPUT_IMAGE_SIZE, 0, RenderTextureFormat.ARGB32);
+            letterboxTexture = RTUtil.NewUAV(DETECTION_INPUT_IMAGE_SIZE, DETECTION_INPUT_IMAGE_SIZE, 0, RenderTextureFormat.ARGB32, GraphicsFormat.R8G8B8A8_UNorm);
+            croppedTexture = RTUtil.NewUAV(LANDMARK_INPUT_IMAGE_SIZE, LANDMARK_INPUT_IMAGE_SIZE, 0, RenderTextureFormat.ARGB32, GraphicsFormat.R8G8B8A8_UNorm);
 
             poseRegionBuffer = new ComputeBuffer(1, sizeof(float) * 24);
             deltaOutputBuffer = new ComputeBuffer(landmarker.KeypointCount, sizeof(float) * 4);

@@ -1,28 +1,30 @@
 using Klak.TestTools;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace BlazePose {
     public class BlazePoseVisualizer3D : MonoBehaviour {
-        [SerializeField] private ImageSource source;
-        [SerializeField] private BlazePoseResource resource;
-        [SerializeField] private Shader shader;
-        [SerializeField] private RawImage previewUI;
-        [SerializeField] LandmarkModelType modelType;
-        [SerializeField, Range(0, 1)] private float humanExistThreshold = 0.5f;
+        [SerializeField] protected ImageSource source;
+        [SerializeField] protected BlazePoseResource resource;
+        [SerializeField] protected Shader shader;
+        [SerializeField] protected RawImage previewUI;
+        [SerializeField] protected LandmarkModelType modelType;
+        [SerializeField, Range(0, 1)] protected float humanExistThreshold = 0.5f;
+        [SerializeField] protected bool drawPoints = true;
+        [SerializeField] protected bool drawLines = true;
 
         private Material material;
-        private BlazePoseDetector detector;
+        protected BlazePoseDetector detector;
 
-        void Start() {
+        protected virtual void Start() {
             material = new Material(shader);
             detector = new BlazePoseDetector(resource, modelType);
         }
 
-        private void LateUpdate() {
+        protected virtual void LateUpdate() {
             previewUI.texture = source.Texture;
+            
             detector.ProcessImage(source.Texture, modelType);
         }
 
@@ -30,15 +32,19 @@ namespace BlazePose {
             material.SetBuffer("_WorldKeyPoints", detector.outputWorldBuffer);
             material.SetInt("_KeypointCount", detector.KeypointCount);
             material.SetFloat("_HumanExistThreshold", humanExistThreshold);
-            material.SetVectorArray("_LinePair", linePair);
+            material.SetVectorArray("_LinePair", BlazePoseDefinition.LinePairs);
 
             // draw 35 body lines
-            material.SetPass(2);
-            Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, BODY_LINE_NUM);
+            if (drawLines) {
+                material.SetPass(2);
+                Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, BlazePoseDefinition.BODY_LINE_NUM);
+            }
 
             // draw 33 landmark points
-            material.SetPass(3);
-            Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, detector.KeypointCount);
+            if (drawPoints) {
+                material.SetPass(3);
+                Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, detector.KeypointCount);
+            }
         }
 
         private void OnEnable() {
@@ -56,16 +62,5 @@ namespace BlazePose {
             Destroy(material);
         }
 
-        private const int BODY_LINE_NUM = 35;
-
-        private readonly List<Vector4> linePair = new List<Vector4>{
-            new Vector4(0, 1), new Vector4(1, 2), new Vector4(2, 3), new Vector4(3, 7), new Vector4(0, 4),
-            new Vector4(4, 5), new Vector4(5, 6), new Vector4(6, 8), new Vector4(9, 10), new Vector4(11, 12),
-            new Vector4(11, 13), new Vector4(13, 15), new Vector4(15, 17), new Vector4(17, 19), new Vector4(19, 15),
-            new Vector4(15, 21), new Vector4(12, 14), new Vector4(14, 16), new Vector4(16, 18), new Vector4(18, 20),
-            new Vector4(20, 16), new Vector4(16, 22), new Vector4(11, 23), new Vector4(12, 24), new Vector4(23, 24),
-            new Vector4(23, 25), new Vector4(25, 27), new Vector4(27, 29), new Vector4(29, 31), new Vector4(31, 27),
-            new Vector4(24, 26), new Vector4(26, 28), new Vector4(28, 30), new Vector4(30, 32), new Vector4(32, 28)
-        };
     }
 }

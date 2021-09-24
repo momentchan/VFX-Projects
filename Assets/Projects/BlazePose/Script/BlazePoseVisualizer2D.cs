@@ -35,11 +35,11 @@ namespace BlazePose {
             material.SetFloat("_HumanExistThreshold", humanExistThreshold);
             material.SetInt("_KeypointCount", detector.KeypointCount);
             material.SetVector("_UiScale", new Vector2(w, h));
-            material.SetVectorArray("_LinePair", linePair);
+            material.SetVectorArray("_LinePair", BlazePoseDefinition.LinePairs);
 
             // draw 35 body lines
             material.SetPass(0);
-            Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, BODY_LINE_NUM);
+            Graphics.DrawProceduralNow(MeshTopology.Triangles, 6, BlazePoseDefinition.BODY_LINE_NUM);
 
             // draw 33 landmark points
             material.SetPass(1);
@@ -60,17 +60,5 @@ namespace BlazePose {
             detector.Dispose();
             Destroy(material);
         }
-
-        private const int BODY_LINE_NUM = 35;
-
-        private readonly List<Vector4> linePair = new List<Vector4>{
-            new Vector4(0, 1), new Vector4(1, 2), new Vector4(2, 3), new Vector4(3, 7), new Vector4(0, 4),
-            new Vector4(4, 5), new Vector4(5, 6), new Vector4(6, 8), new Vector4(9, 10), new Vector4(11, 12),
-            new Vector4(11, 13), new Vector4(13, 15), new Vector4(15, 17), new Vector4(17, 19), new Vector4(19, 15),
-            new Vector4(15, 21), new Vector4(12, 14), new Vector4(14, 16), new Vector4(16, 18), new Vector4(18, 20),
-            new Vector4(20, 16), new Vector4(16, 22), new Vector4(11, 23), new Vector4(12, 24), new Vector4(23, 24),
-            new Vector4(23, 25), new Vector4(25, 27), new Vector4(27, 29), new Vector4(29, 31), new Vector4(31, 27),
-            new Vector4(24, 26), new Vector4(26, 28), new Vector4(28, 30), new Vector4(30, 32), new Vector4(32, 28)
-        };
     }
 }

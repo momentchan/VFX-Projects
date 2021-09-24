@@ -1,0 +1,55 @@
+#pragma kernel WriteLinePairs
+#pragma kernel MirrorTexture
+#pragma kernel WritePositionMap
+
+uint _LinePairCount;
+float2 _LinePair[35];
+RWTexture2D<float4> _LinePairMap;
+
+uint _KeypointCount;
+RWTexture2D<float4> _OutputTexture;
+StructuredBuffer<float4> _WorldKeyPoints;
+
+Texture2D<float4> _Origin;
+RWTexture2D<float4> _Mirror;
+uint _Width;
+bool _IsMirror;
+
+[numthreads(35, 1, 1)]
+void WriteLinePairs(uint id : SV_DispatchThreadID)
+{
+	if (id >= _LinePairCount) return;
+
+	float totalSum = 0;
+	for (uint i = 0; i < _LinePairCount; i++)
+		totalSum += distance(_WorldKeyPoints[_LinePair[i].x], _WorldKeyPoints[_LinePair[i].y]);
+
+	float accSum = 0;
+	for (i = 0; i < id; i++)
+		accSum += distance(_WorldKeyPoints[_LinePair[i].x], _WorldKeyPoints[_LinePair[i].y]);
+
+	_LinePairMap[uint2(id, 0)] = float4(_LinePair[id].xy, accSum / totalSum, 0);
+}
+
+[numthreads(8, 8, 1)]
+void MirrorTexture(uint2 id : SV_DispatchThreadID) {
+	if (_IsMirror)
+		_Mirror[id] = _Origin[uint2(_Width - id.x, id.y)];
+	else
+		_Mirror[id] = _Origin[id];
+}
+
+[numthreads(33, 1, 1)]
+void WritePositionMap(uint id : SV_DispatchThreadID)
+{
+	if (id >= _KeypointCount) return;
+	_OutputTexture[uint2(id, 0)] = _WorldKeyPoints[id];
+}
+
+
+[numthreads(33, 1, 1)]
+void ProbabilityMap(uint id : SV_DispatchThreadID)
+{
+	//if (id >= _KeypointCount) return;
+	//_OutputTexture[uint2(id, 0)] = _WorldKeyPoints[id];
+}
