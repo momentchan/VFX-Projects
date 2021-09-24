@@ -18,6 +18,17 @@ namespace Common {
             rt.Create();
             return rt;
         }
+
+        public static RenderTextureFormat SingleChannelRTFormat => SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8) 
+                                                                   ? RenderTextureFormat.R8 : RenderTextureFormat.Default;
+        public static RenderTextureFormat SingleChannelHalfRTFormat => SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RHalf)
+                                                                    ? RenderTextureFormat.RHalf : RenderTextureFormat.ARGBHalf;
+
+        public static RenderTexture NewSingleChannelRT(int width, int height)
+          => new RenderTexture(width, height, 0, SingleChannelRTFormat);
+
+        public static RenderTexture NewSingleChannelHalfRT(int width, int height)
+          => new RenderTexture(width, height, 0, SingleChannelHalfRTFormat);
     }
 
     static class ComputeShaderExtensions {

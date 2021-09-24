@@ -1,0 +1,82 @@
+#pragma kernel PixelSortingHorizontal
+#pragma kernel PixelSortingVertical
+
+uint _Width;
+uint _Height;
+float4 _Threshold;
+Texture2D<float4> _SourceTex;
+Texture2D<float> _MaskTex;
+RWTexture2D<float4> _OutputTex;
+
+float Luma(float3 rgb) {
+	return saturate(dot(rgb, float3(0.2126729, 0.7151522, 0.0721750)));
+}
+
+uint Search(uint x, uint y, bool horizontal = true) {
+	uint range = horizontal ? _Width : _Height;
+	uint index = horizontal ? x : y;
+
+	for (; index < range; index++) {
+		uint2 pixel = horizontal ? uint2(index, y) : uint2(x, index);
+		float3 color = _SourceTex[pixel].rgb;
+		float mask = _MaskTex[pixel].r;
+		if (Luma(color) < _Threshold.x && mask > _Threshold.w) break;
+		_OutputTex[pixel] = float4(color, 1);
+	}
+
+	return index;
+}
+
+uint SortPixels(uint x, uint y, bool horizontal = true) {
+	uint count[256], pos[256];
+	for (uint i = 0; i < 256; i++)
+		count[i] = 0;
+
+	uint start = horizontal ? x : y;
+	uint range = horizontal ? _Width : _Height;
+
+	for (uint index = start; index < range; index++) {
+		uint2 pixel = horizontal ? uint2(index, y) : uint2(x, index);
+
+		float luma = Luma(_SourceTex[pixel].rgb);
+		float mask = _MaskTex[pixel].r;
+		if (luma > _Threshold.y || mask < _Threshold.z) break;
+
+		i = luma * 255;
+		count[i]++;
+		pos[i] = index;
+	}
+
+	for (i = 0, index = start; i < 256; i++) {
+		uint2 pixel = horizontal ? uint2(pos[i], y) : uint2(x, pos[i]);
+
+		float4 color = _SourceTex[pixel];
+		for (uint c = 0; c < count[i]; c++) {
+			pixel = horizontal ? uint2(index, y) : uint2(x, index);
+			_OutputTex[pixel] = color;
+			index++;
+		}
+	}
+
+	return index;
+}
+
+[numthreads(24, 1, 1)]
+void PixelSortingHorizontal(uint y : SV_DispatchThreadID)
+{
+	for (uint x = 0; x < _Width;) {
+		x = Search(x, y);
+		if (x >= _Width) break;
+		x = SortPixels(x, y);
+	}
+}
+
+[numthreads(24, 1, 1)]
+void PixelSortingVertical(uint x : SV_DispatchThreadID)
+{
+	for (uint y = 0; y < _Height;) {
+		y = Search(x, y, false);
+		if (y >= _Height) break;
+		y = SortPixels(x, y, false);
+	}
+}
