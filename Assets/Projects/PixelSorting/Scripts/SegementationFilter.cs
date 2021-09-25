@@ -7,12 +7,12 @@ namespace NNCam {
     public class SegementationFilter : System.IDisposable {
         public Texture MaskTexture => postprocessed;
 
-        public SegementationFilter(ResourceSet resource) {
+        public SegementationFilter(ResourceSet resource, int w = 1920, int h = 1080) {
             this.resource = resource;
 
             worker = ModelLoader.Load(resource.model).CreateWorker();
             preprocessed = new ComputeBuffer(WIDTH * HEIGHT * 3, sizeof(float));
-            postprocessed = RTUtil.NewSingleChannelRT(1920, 1080);
+            postprocessed = RTUtil.NewSingleChannelRT(w, h);
             postprocessor = new Material(resource.postprocess);
         }
 

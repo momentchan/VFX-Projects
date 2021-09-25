@@ -23,22 +23,12 @@ namespace NNCam {
         
         void Start() {
             filter = new SegementationFilter(resource);
-
             outputTex = RTUtil.NewUAV(w, h, 0);
         }
 
         private void OnValidate() {
             lumaMax = Mathf.Max(lumaMin, lumaMax);
             maskMax = Mathf.Max(maskMin, maskMax);
-        }
-        void OnEnable() {
-            RenderPipelineManager.endCameraRendering += EndCameraRendering;
-        }
-
-        void EndCameraRendering(ScriptableRenderContext context, Camera camera) {
-            if (camera == Camera.main) {
-                Graphics.Blit(outputTex, camera.targetTexture);
-            }
         }
         private void LateUpdate() {
             filter.ProcessImage(source.Texture);
