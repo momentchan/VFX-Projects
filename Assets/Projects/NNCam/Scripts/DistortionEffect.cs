@@ -1,14 +1,11 @@
 using Common;
-using Klak.TestTools;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace NNCam {
-    public class Effect : MonoBehaviour {
-        [SerializeField] private ImageSource source;
+    public class DistortionEffect : MonoBehaviour {
+        [SerializeField] private HumanMaskProvider provider;
         [SerializeField] private RawImage previewUI;
-        [SerializeField] private ResourceSet resource;
         [SerializeField] private Shader shader;
 
         [SerializeField] private float feedbackLength = 3;
@@ -18,8 +15,6 @@ namespace NNCam {
         [SerializeField] private float noiseAmount = 1;
 
         private int w = 1920, h = 1080;
-
-        private SegementationFilter filter;
         private Material material;
 
         private Vector2 FeedbackVector => new Vector2(feedbackLength, feedbackDecay / 100);
@@ -28,27 +23,23 @@ namespace NNCam {
         (RenderTexture rt1, RenderTexture rt2) buffer;
 
         void Start() {
-            filter = new SegementationFilter(resource);
             material = new Material(shader);
             buffer.rt1 = RTUtil.NewFloat4(w, h);
             buffer.rt2 = RTUtil.NewFloat4(w, h);
         }
 
-        private void Update() {
-
-            filter.ProcessImage(source.Texture);
+        void LateUpdate() {
             material.SetTexture("_FeedbackTex", buffer.rt1);
-            material.SetTexture("_MaskTex", filter.MaskTexture);
+            material.SetTexture("_MaskTex", provider.MaskTexture);
             material.SetVector("_Feedback", FeedbackVector);
             material.SetVector("_Noise", NoiseVector);
-            Graphics.Blit(source.Texture, buffer.rt2, material, 0);
+            Graphics.Blit(provider.SourceTexture, buffer.rt2, material, 0);
 
             buffer = (buffer.rt2, buffer.rt1);
             previewUI.texture = buffer.rt1;
         }
 
-        private void OnDestroy() {
-            filter?.Dispose();
+        void OnDestroy() {
             Destroy(material);
             Destroy(buffer.rt1);
             Destroy(buffer.rt2);

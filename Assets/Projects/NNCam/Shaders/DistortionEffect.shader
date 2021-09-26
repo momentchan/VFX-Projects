@@ -1,4 +1,4 @@
-Shader "Unlit/Effect"
+Shader "NNCam/DistortionEffect"
 {
 	Properties
 	{
