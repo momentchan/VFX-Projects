@@ -5,54 +5,98 @@ using UnityEngine.Experimental.Rendering;
 
 namespace NNCam {
     public class SegementationFilter : System.IDisposable {
-        public Texture MaskTexture => postprocessed;
+        public Texture MaskTexture => buffers.mask;
+
+        private int KeyPointCount = 17;
 
         public SegementationFilter(ResourceSet resource, int w = 1920, int h = 1080) {
             this.resource = resource;
 
+            config = new Config(resource, w, h);
             worker = ModelLoader.Load(resource.model).CreateWorker();
-            preprocessed = new ComputeBuffer(WIDTH * HEIGHT * 3, sizeof(float));
-            postprocessed = RTUtil.NewSingleChannelRT(w, h);
-            postprocessor = new Material(resource.postprocess);
+            buffers.preprocess = new ComputeBuffer(config.InputFootPrint, sizeof(float));
+            buffers.segment = RTUtil.NewFloat(config.OutputWidth, config.OutputHeight);
+            buffers.parts = RTUtil.NewFloat(config.OutputWidth * 24, config.OutputHeight);
+            buffers.heatmaps = RTUtil.NewFloat(config.OutputWidth * KeyPointCount, config.OutputHeight);
+            buffers.offsets = RTUtil.NewFloat(config.OutputWidth * KeyPointCount * 2, config.OutputHeight);
+            buffers.mask = RTUtil.NewUAV(config.OutputWidth, config.OutputHeight);
+            buffers.keypoints = new GraphicsBuffer(GraphicsBuffer.Target.Structured, KeyPointCount, sizeof(float) * 4);
         }
-
-        const int WIDTH = 640 + 1;
-        const int HEIGHT = 352 + 1;
 
         private IWorker worker;
         private ResourceSet resource;
-        private ComputeBuffer preprocessed;
-        private RenderTexture postprocessed;
-        private Material postprocessor;
+        private Config config;
+
+        (ComputeBuffer preprocess,
+         RenderTexture segment,
+         RenderTexture parts,
+         RenderTexture heatmaps,
+         RenderTexture offsets,
+         RenderTexture mask,
+         GraphicsBuffer keypoints) buffers;
 
         public void ProcessImage(Texture sourceTex) {
-            var pre = resource.preprocess;
-            pre.SetInt("_Width", WIDTH);
-            pre.SetInt("_Height", HEIGHT);
-            pre.SetTexture(0, "_SourceTex", sourceTex);
-            pre.SetBuffer(0, "_Tensor", preprocessed);
-            pre.DispatchThreads(0, WIDTH, HEIGHT, 1);
 
-            using (var tensor = new Tensor(1, HEIGHT, WIDTH, 3, preprocessed))
+            // Preprocess
+            var pre = resource.preprocess;
+            pre.SetInts("_InputSize", config.InputWidth, config.InputHeight);
+            pre.SetTexture(0, "_Input", sourceTex);
+            pre.SetBuffer(0, "_Output", buffers.preprocess);
+            pre.DispatchThreads(0, config.InputWidth, config.InputHeight, 1);
+
+            // NN worker invocation
+            using (var tensor = new Tensor(config.InputShape, buffers.preprocess))
                 worker.Execute(tensor);
 
-            var output = worker.PeekOutput("float_segments");
+            // NN output retrieval
+            worker.CopyOutputToRT("segments", buffers.segment);
+            worker.CopyOutputToRT("part_heatmaps", buffers.parts);
+            worker.CopyOutputToRT("heatmaps", buffers.heatmaps);
+            worker.CopyOutputToRT("short_offsets", buffers.offsets);
 
-            var segRT = new RenderTexture(81, 45, 0, GraphicsFormat.B8G8R8A8_UNorm);
-            output.ToRenderTexture(segRT, 0, 0, 1.0f / 32, 0.5f);
-            Graphics.Blit(segRT, postprocessed, postprocessor);
-            Object.Destroy(segRT);
+            var post1 = resource.mask;
+            post1.SetTexture(0, "_Segments", buffers.segment);
+            post1.SetTexture(0, "_Heatmaps", buffers.parts);
+            post1.SetTexture(0, "_Output", buffers.mask);
+            post1.SetInts("_InputSize", config.OutputWidth, config.OutputHeight);
+            post1.DispatchThreads(0, config.OutputWidth, config.OutputHeight, 1);
+
+            var post2 = resource.keypoints;
+            post2.SetTexture(0, "_Heatmaps", buffers.heatmaps);
+            post2.SetTexture(0, "_Offsets", buffers.offsets);
+            post2.SetInts("_InputSize", config.OutputWidth, config.OutputHeight);
+            post2.SetInt("_Stride", config.Stride);
+            post2.SetBuffer(0, "_Keypoints", buffers.keypoints);
+            post2.Dispatch(0, 1, 1, 1);
         }
 
         public void Dispose() {
-            if (postprocessed != null) Object.Destroy(postprocessed);
-            if (postprocessor != null) Object.Destroy(postprocessor);
-
-            preprocessed?.Dispose();
-            preprocessed = null;
-
             worker?.Dispose();
             worker = null;
+
+            buffers.preprocess?.Dispose();
+            buffers.preprocess = null;
+
+            ObjectUtil.Destroy(buffers.segment);
+            buffers.segment = null;
+
+            ObjectUtil.Destroy(buffers.parts);
+            buffers.parts = null;
+
+            ObjectUtil.Destroy(buffers.heatmaps);
+            buffers.heatmaps = null;
+
+            ObjectUtil.Destroy(buffers.segment);
+            buffers.segment = null;
+
+            ObjectUtil.Destroy(buffers.offsets);
+            buffers.offsets = null;
+
+            ObjectUtil.Destroy(buffers.mask);
+            buffers.mask = null;
+
+            buffers.keypoints?.Dispose();
+            buffers.keypoints = null;
         }
     }
 }

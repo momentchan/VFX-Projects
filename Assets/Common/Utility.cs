@@ -4,6 +4,17 @@ using UnityEngine.Experimental.Rendering;
 
 namespace Common {
 
+    static class ObjectUtil {
+        public static void Destroy(Object o) {
+            if (o == null) return;
+            if (Application.isPlaying)
+                Object.Destroy(o);
+            else
+                Object.DestroyImmediate(o);
+        }
+    }
+
+
     static class RTUtil {
         public static RenderTexture NewFloat(int w, int h)
           => new RenderTexture(w, h, 0, RenderTextureFormat.RFloat);
@@ -11,7 +22,7 @@ namespace Common {
         public static RenderTexture NewFloat4(int w, int h)
           => new RenderTexture(w, h, 0, RenderTextureFormat.ARGBFloat);
 
-        public static RenderTexture NewUAV(int w, int h, int d, RenderTextureFormat format = RenderTextureFormat.ARGBFloat, GraphicsFormat graphicsFormat = GraphicsFormat.R32G32B32A32_SFloat) {
+        public static RenderTexture NewUAV(int w, int h, int d = 0, RenderTextureFormat format = RenderTextureFormat.ARGBFloat, GraphicsFormat graphicsFormat = GraphicsFormat.R32G32B32A32_SFloat) {
             var rt = new RenderTexture(w, h, d, format);
             rt.graphicsFormat = graphicsFormat;
             rt.enableRandomWrite = true;
@@ -19,7 +30,7 @@ namespace Common {
             return rt;
         }
 
-        public static RenderTextureFormat SingleChannelRTFormat => SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8) 
+        public static RenderTextureFormat SingleChannelRTFormat => SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8)
                                                                    ? RenderTextureFormat.R8 : RenderTextureFormat.Default;
         public static RenderTextureFormat SingleChannelHalfRTFormat => SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.RHalf)
                                                                     ? RenderTextureFormat.RHalf : RenderTextureFormat.ARGBHalf;
@@ -58,6 +69,12 @@ namespace Common {
             using (var tensor = worker.PeekOutput(name).Reshape(shape))
                 tensor.ToRenderTexture(rt);
             return rt;
+        }
+
+        public static void CopyOutputToRT(this IWorker worker, string name, RenderTexture rt) {
+            var shape = new TensorShape(1, rt.height, rt.width, 1);
+            using (var tensor = worker.PeekOutput(name).Reshape(shape))
+                tensor.ToRenderTexture(rt);
         }
 
         public static ComputeBuffer CopyOutputToBuffer(this IWorker worker, string name, int length) {

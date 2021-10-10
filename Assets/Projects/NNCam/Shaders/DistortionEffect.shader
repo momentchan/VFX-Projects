@@ -44,7 +44,7 @@ Shader "NNCam/DistortionEffect"
 		float2 uv =  Mirror(i.uv);
 		float3 camera = tex2D(_MainTex, uv); 
 		float4 feedback = tex2D(_FeedbackTex, i.uv+ Displacement(i.uv));
-		float mask = smoothstep(0.9, 1, tex2D(_MaskTex, uv).r);
+		float mask = smoothstep(0.9, 1, dot(tex2D(_MaskTex, uv), float4(1,1,1,1)));
 		float alpha = lerp(feedback.a * (1 - _Feedback.y), _Feedback.x, mask);
 		float3 rgb = lerp(camera, feedback.rgb, saturate(alpha) * (1 - mask));
 

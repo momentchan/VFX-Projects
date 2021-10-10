@@ -515,6 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source: {fileID: 1298636554}
   resource: {fileID: 11400000, guid: e6b50af45c6ced9438fa6cf2b9566869, type: 2}
+  shader: {fileID: 4800000, guid: 4f2884d29ecc76d4a81304241481a007, type: 3}
+  output: {fileID: 8400000, guid: 76fd66d07e706854d9a14ce632fc149c, type: 2}
 --- !u!1 &1643578872
 GameObject:
   m_ObjectHideFlags: 0
