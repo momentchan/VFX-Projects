@@ -58,9 +58,8 @@ MonoBehaviour:
   m_UIInfos: {fileID: 114340500867371532}
   m_ParameterInfo: []
   m_ImportDependencies: []
-  m_GraphVersion: 7
+  m_GraphVersion: 8
   m_ResourceVersion: 1
-  m_saved: 1
   m_SubgraphDependencies:
   - {fileID: 5371698745253816930, guid: f25fdbfc2dcbd7d44b7f32d1644757ca, type: 3}
   m_CategoryPath: 
@@ -563,6 +562,8 @@ MonoBehaviour:
   capacity: 256
   stripCapacity: 16
   particlePerStripCount: 16
+  needsComputeBounds: 0
+  boundsSettingMode: 1
   m_Space: 0
 --- !u!114 &8926484042661614656
 MonoBehaviour:
@@ -3825,6 +3826,8 @@ MonoBehaviour:
   capacity: 16384
   stripCapacity: 256
   particlePerStripCount: 64
+  needsComputeBounds: 0
+  boundsSettingMode: 1
   m_Space: 0
 --- !u!114 &8926484042661614880
 MonoBehaviour:
@@ -3970,6 +3973,9 @@ MonoBehaviour:
   useExposureWeight: 0
   flipbookLayout: 0
   shaderGraph: {fileID: -5475051401550479605, guid: 0df1cc2d771583a4e9eaad46262819ec, type: 3}
+  materialSettings:
+    m_PropertyNames: []
+    m_PropertyValues: []
   tilingMode: 0
   swapUV: 0
   UseCustomZAxis: 0
