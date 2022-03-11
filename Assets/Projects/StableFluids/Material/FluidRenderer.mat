@@ -39,5 +39,5 @@ Material:
     m_Floats: []
     m_Colors:
     - _Direction: {r: 0, g: 0, b: 0, a: 0}
-    - _PosDir: {r: 0.26337585, g: 0.2818996, b: -0.22573194, a: -0.22888866}
+    - _PosDir: {r: 0.5300723, g: 0.4533639, b: 0.027009249, a: 0.03035754}
   m_BuildTextureStacks: []
