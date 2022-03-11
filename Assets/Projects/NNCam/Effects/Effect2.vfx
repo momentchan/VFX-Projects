@@ -48,9 +48,9 @@ MonoBehaviour:
   - title: UV
     position:
       serializedVersion: 2
-      x: -1123
-      y: 220
-      width: 644
+      x: -960
+      y: 201
+      width: 625
       height: 286
     contents:
     - model: {fileID: 8926484042661614600}
@@ -101,9 +101,9 @@ MonoBehaviour:
     position:
       serializedVersion: 2
       x: -709
-      y: 1059
+      y: 1060
       width: 1014
-      height: 382
+      height: 353
     contents:
     - model: {fileID: 8926484042661615230}
       id: 0
@@ -813,7 +813,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614599}
       inputSlot: {fileID: 8926484042661614770}
-    position: {x: -1093.2, y: 322.4}
+    position: {x: -930.4, y: 304}
     expandedSlots: []
     expanded: 0
   - m_Id: 4
@@ -911,7 +911,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614601}
       inputSlot: {fileID: 8926484042661614758}
-    position: {x: -1097.6, y: 430}
+    position: {x: -934.8, y: 411.59998}
     expandedSlots: []
     expanded: 0
   - m_Id: 3
@@ -1708,7 +1708,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: -938, y: 278}
+  m_UIPosition: {x: -775, y: 260}
   m_UICollapsed: 0
   m_UISuperCollapsed: 1
   m_InputSlots:
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: -938, y: 400}
+  m_UIPosition: {x: -775, y: 382}
   m_UICollapsed: 0
   m_UISuperCollapsed: 1
   m_InputSlots:
@@ -1947,7 +1947,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: -748, y: 350}
+  m_UIPosition: {x: -585, y: 332}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -3993,7 +3993,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: -497, y: 1226}
+  m_UIPosition: {x: -546, y: 1198}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:

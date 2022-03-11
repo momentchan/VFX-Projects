@@ -6,11 +6,6 @@ using UnityEngine;
 namespace Render {
     public class RenderUtility : MonoBehaviour {
         public static RenderTexture CreateRenderTexture(int width, int height, int depth, RenderTextureFormat format, TextureWrapMode wrapMode, FilterMode filterMode, RenderTexture rt) {
-            if (rt != null) {
-                if(rt.width == width && rt.height == height) 
-                    return rt;
-            }
-
             ReleaseRenderTexture(rt);
             rt = new RenderTexture(width, height, depth, format);
             rt.enableRandomWrite = true;

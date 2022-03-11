@@ -1,4 +1,5 @@
 using Klak.TestTools;
+using mj.gist;
 using UnityEngine;
 
 namespace NNCam {
@@ -9,15 +10,18 @@ namespace NNCam {
         [SerializeField] protected ImageSource source;
         [SerializeField] protected ResourceSet resource;
         [SerializeField] protected Shader shader;
+        [SerializeField] protected Shader mirrorShader;
         protected SegementationFilter filter;
 
         [SerializeField] private RenderTexture output;
-
+        [SerializeField] private bool mirror;
         private Material material;
+        private Material mirrorMat;
 
         protected virtual void Start() {
             filter = new SegementationFilter(resource, 512, 384);
             material = new Material(shader);
+            mirrorMat = new Material(mirrorShader);
         }
 
         protected virtual void Update() {
@@ -28,6 +32,13 @@ namespace NNCam {
             material.SetTexture("_BodyPixTexture", filter.MaskTexture);
             material.SetPass(0);
             Graphics.DrawProceduralNow(MeshTopology.Triangles, 3, 1);
+
+            if (mirror) {
+                var temp = RenderTexture.GetTemporary(output.descriptor);
+                Graphics.Blit(output, temp, mirrorMat);
+                Graphics.Blit(temp, output);
+                temp.Release();
+            }
         }
 
         protected virtual void OnDestroy() {

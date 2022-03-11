@@ -480,10 +480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ff2e515a81541cbb664860588e2c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sourceType: 2
+  _sourceType: 1
   _texture: {fileID: 2800000, guid: 2e4686513bef7ab4f82a8acdd604489c, type: 3}
   _textureUrl: 
-  _video: {fileID: 32900000, guid: 975bda7e4d1f88941a7072e5f3edf8ab, type: 3}
+  _video: {fileID: 32900000, guid: 71c7b160fdee1bf4a898bf4f6a932c21, type: 3}
   _videoUrl: 
   _webcamName: Integrated Camera
   _webcamResolution: {x: 1920, y: 1080}

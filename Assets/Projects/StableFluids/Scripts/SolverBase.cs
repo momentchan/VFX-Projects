@@ -50,7 +50,7 @@ namespace StableFluid {
 
         protected Dictionary<ComputeKernels, int> kernelMap = new Dictionary<ComputeKernels, int>();
         protected GPUThreads gpuThreads;
-        protected RenderTexture solverTex;
+        [SerializeField] protected RenderTexture solverTex;
         protected RenderTexture densityTex;
         protected RenderTexture velocityTex;
         protected RenderTexture prevTex;
@@ -102,7 +102,7 @@ namespace StableFluid {
         }
 
         protected virtual void Update() {
-            if (width != Screen.width || height != Screen.height) InitializeComputeShader();
+            if (width != Screen.width || height != Screen.height || Input.GetKeyDown(KeyCode.R)) InitializeComputeShader();
             computeShader.SetFloat(diffId, diff);
             computeShader.SetFloat(viscId, visc);
             computeShader.SetFloat(dtId, Time.deltaTime);
