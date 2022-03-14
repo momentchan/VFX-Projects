@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_MozaicEffect
+  m_Shader: {fileID: 4800000, guid: 5a47d57bc4206804fa956b709af7b5b2, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 8400000, guid: c92abe702d4381c438bcea414031feb3, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Border: 0.1
+    - _Ratio: 1
+    - _Segemnt: 15
+    - _Segemnts: 21.8
+    - _Segments: 26.9
+    - _SegmentsDecay: 0
+    m_Colors:
+    - _Range: {r: 0, g: 0.5, b: 0, a: 1}
+    - _Segemnts: {r: 32, g: 18, b: 0, a: 0}
+  m_BuildTextureStacks: []
