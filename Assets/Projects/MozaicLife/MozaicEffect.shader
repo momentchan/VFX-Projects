@@ -30,7 +30,6 @@ Shader "Unlit/MozaicEffect"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
@@ -58,8 +57,7 @@ Shader "Unlit/MozaicEffect"
                 fixed4 col = tex2D(_MainTex, index);
 
                 float border = saturate(step(1 - _Border, f.x) + step(f.x,  _Border) + step(1 - _Border, f.y) + step(f.y, _Border));
-                col = lerp(col, 1, border);
-                col.a *= step(_Range.x, i.uv.x) * step(i.uv.x, _Range.y) * step(_Range.z, i.uv.y) * step(i.uv.y, _Range.w);
+                col.a *= step(_Range.x, i.uv.x) * step(i.uv.x, _Range.y) * step(_Range.z, i.uv.y) * step(i.uv.y, _Range.w) * (1-border);
                 return col;
             }
             ENDCG
