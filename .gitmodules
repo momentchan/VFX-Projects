@@ -4,3 +4,6 @@
 [submodule "Assets/Packages/unity-vfx-gist"]
 	path = Assets/Packages/unity-vfx-gist
 	url = https://github.com/momentchan/unity-vfx-gist.git
+[submodule "Assets/Packages/unity-tracking-gist"]
+	path = Assets/Packages/unity-tracking-gist
+	url = https://github.com/momentchan/unity-tracking-gist.git
