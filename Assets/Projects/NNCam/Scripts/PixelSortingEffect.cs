@@ -1,10 +1,11 @@
-using Common;
+using mj.gist.tracking;
+using mj.gist.tracking.body;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace NNCam {
     public class PixelSortingEffect : MonoBehaviour {
-        [SerializeField] private HumanMaskProvider provider;
+        [SerializeField] private BodyMaskProvider provider;
         [SerializeField] private RawImage previewUI;
         [SerializeField] private ComputeShader cs;
         [SerializeField, Range(0, 1)] private float lumaMin = 0f;

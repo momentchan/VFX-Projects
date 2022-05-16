@@ -1,3 +1,4 @@
+using mj.gist.tracking.body;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace NNCam {
         [VFXPropertyBinding("UnityEngine.Texture2D"), SerializeField]
         ExposedProperty maskTexProperty = "MaskTex";
 
-        public HumanMaskProvider Target;
+        public BodyMaskProvider Target;
         public override bool IsValid(VisualEffect component) {
             return Target != null && component.HasTexture(maskTexProperty);
         }
