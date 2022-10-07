@@ -1,4 +1,4 @@
-using nobnak.Gist.Wrapper;
+using mj.gist;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

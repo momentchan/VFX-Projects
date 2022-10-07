@@ -7,7 +7,7 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.6D37E7DB" = ""
+	"last_search.6D37E7DB" = "test"
 	"OpenInspectorPreview.6D37E7DB" = "0"
 	"currentGroup.6D37E7DB" = "asset"
 }
@@ -64,6 +64,7 @@ providers = {
 	}
 }
 recentSearches = [
+	"test"
 ]
 searchItemFavorites = [
 ]
