@@ -91,9 +91,9 @@ MonoBehaviour:
   decalLayerName5: 
   decalLayerName6: 
   decalLayerName7: 
-  shaderVariantLogLevel: 0
   lensAttenuationMode: 0
-  diffusionProfileSettingsList:
+  colorGradingSpace: 0
+  m_ObsoleteDiffusionProfileSettingsList:
   - {fileID: 11400000, guid: 404820c4cf36ad944862fa59c56064f0, type: 2}
   - {fileID: 11400000, guid: 2384dbf2c1c420f45a792fbc315fbfb1, type: 2}
   rendererListCulling: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   useDLSSCustomProjectId: 0
   supportProbeVolumes: 1
   supportRuntimeDebugDisplay: 1
+  autoRegisterDiffusionProfiles: 0
   apvScenesData:
     serializedBounds: []
     serializedHasVolumes:
@@ -112,6 +113,7 @@ MonoBehaviour:
     serializedBakeSettings:
     - sceneGUID: f832c6277b55c9047a0c590ffef2f03b
       settings:
+        m_Version: 0
         dilationSettings:
           enableDilation: 1
           dilationDistance: 1
@@ -122,11 +124,17 @@ MonoBehaviour:
           useVirtualOffset: 1
           outOfGeoOffset: 0.01
           searchMultiplier: 0.2
+          rayOriginBias: 0
+          maxHitsPerRay: 0
+          collisionMask:
+            serializedVersion: 2
+            m_Bits: 0
     serializedBakingSets:
     - name: Default
       sceneGUIDs:
       - f832c6277b55c9047a0c590ffef2f03b
       settings:
+        m_Version: 1
         dilationSettings:
           enableDilation: 1
           dilationDistance: 1
@@ -137,5 +145,14 @@ MonoBehaviour:
           useVirtualOffset: 1
           outOfGeoOffset: 0.01
           searchMultiplier: 0.2
+          rayOriginBias: -0.001
+          maxHitsPerRay: 10
+          collisionMask:
+            serializedVersion: 2
+            m_Bits: 4294967291
       profile: {fileID: 11400000, guid: 41050faa7f884a74485ee40d4621c3ea, type: 2}
-  m_Version: 3
+      lightingScenarios: []
+    m_LightingScenario: Default
+  m_Version: 5
+  m_ShaderVariantLogLevel: 0
+  m_ExportShaderVariants: 1
