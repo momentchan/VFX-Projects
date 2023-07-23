@@ -217,30 +217,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "ga.fuquna.prefsgui": {
-      "version": "3.2.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://registry.npmjs.com"
-    },
-    "ga.fuquna.prefsgui.rapidgui": {
-      "version": "0.0.2",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "ga.fuquna.prefsgui": "3.2.0",
-        "ga.fuquna.rapidgui": "1.2.3"
-      },
-      "url": "https://registry.npmjs.com"
-    },
-    "ga.fuquna.rapidgui": {
-      "version": "1.2.3",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://registry.npmjs.com"
-    },
     "jp.keijiro.ffmpeg-out": {
       "version": "1.0.5",
       "depth": 1,
