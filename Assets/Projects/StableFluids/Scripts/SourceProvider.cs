@@ -65,7 +65,7 @@ namespace StableFluid {
         [SerializeField] private float dirFactor = 1f;
         [SerializeField] private float dirMul = 1f;
         private void UpdateAudioSource() {
-            var value = audioAnalyzer.Peak;
+            var value = 0;////audioAnalyzer.Peak;
             if (value < thre || Vector3.Distance(lastSourcePos, new Vector3(0.5f, 0.5f, 0)) > outRadius) {
                 Reset();
                 return;
