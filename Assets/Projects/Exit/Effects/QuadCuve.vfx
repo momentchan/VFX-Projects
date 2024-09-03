@@ -266,7 +266,7 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots: []
   m_Label: Spawn system
-  m_Data: {fileID: 8926484042661615229}
+  m_Data: {fileID: 8926484042661615529}
   m_InputFlowSlot:
   - link:
     - context: {fileID: 8926484042661615228}
@@ -634,7 +634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
+  m_Parent: {fileID: 0}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -1283,7 +1283,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs:
   - {fileID: 8926484042661614689}
@@ -1301,8 +1301,7 @@ MonoBehaviour:
   castShadows: 0
   useExposureWeight: 0
   needsOwnSort: 0
-  shaderGraph: {fileID: 4333940904281232215, guid: e9fd14b1abf52cf40bdb72fd34d4a707,
-    type: 3}
+  shaderGraph: {fileID: 4333940904281232215, guid: e9fd14b1abf52cf40bdb72fd34d4a707, type: 3}
   materialSettings:
     m_PropertyNames:
     - _RenderQueueType
@@ -1343,6 +1342,7 @@ MonoBehaviour:
     - _StencilWriteMaskMV
     - _StencilRefDistortionVec
     - _StencilWriteMaskDistortionVec
+    - _ExcludeFromTUAndAA
     m_PropertyValues:
     - 4
     - 0
@@ -1382,6 +1382,7 @@ MonoBehaviour:
     - 43
     - 4
     - 4
+    - 0
   MeshCount: 1
   lod: 0
 --- !u!114 &8926484042661614685
@@ -6495,7 +6496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
-  m_Parent: {fileID: 114350483966674976}
+  m_Parent: {fileID: 0}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
@@ -6503,7 +6504,6 @@ MonoBehaviour:
   title: 
   m_Owners:
   - {fileID: 8926484042661615228}
-  - {fileID: 8926484042661614555}
 --- !u!114 &8926484042661615230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9625,8 +9625,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615449}
   m_OutputSlots:
   - {fileID: 8926484042661615450}
-  m_Subgraph: {fileID: 5371698745253816930, guid: f25fdbfc2dcbd7d44b7f32d1644757ca,
-    type: 3}
+  m_Subgraph: {fileID: 5371698745253816930, guid: f25fdbfc2dcbd7d44b7f32d1644757ca, type: 3}
 --- !u!114 &8926484042661615449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11478,3 +11477,24 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661615413}
+--- !u!114 &8926484042661615529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68759077adc0b143b6e1c101e82065e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  title: 
+  m_Owners:
+  - {fileID: 8926484042661614555}
